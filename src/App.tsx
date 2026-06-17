@@ -351,6 +351,13 @@ function AttendanceApp() {
           >
             Shiva Gupta
           </a>
+          {' '}|{' '}
+          <a
+            href="mailto:shivaiitpatna@gmail.com"
+            className="text-slate-600 hover:text-slate-800 dark:text-zinc-300 dark:hover:text-white transition-colors duration-200 underline underline-offset-4 decoration-slate-300 dark:decoration-zinc-800"
+          >
+            shivaiitpatna@gmail.com
+          </a>
         </p>
       </footer>
 

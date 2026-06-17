@@ -72,6 +72,14 @@ export function Navbar({ onAddSubject, onSearchClick }: { onAddSubject: () => vo
             >
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
+            <a
+              href="https://digitalheroesco.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex focus-ring min-h-11 items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold transition duration-200 active:scale-[0.99] border border-slate-200/50 dark:border-zinc-800 dark:bg-transparent text-slate-600 dark:text-zinc-300 hover:bg-slate-200/40 dark:hover:bg-zinc-900"
+            >
+              Built for Digital Heroes
+            </a>
             <Button className="hidden sm:inline-flex" icon={<Plus size={17} />} onClick={onAddSubject}>
               Add Subject
             </Button>
@@ -99,7 +107,15 @@ export function Navbar({ onAddSubject, onSearchClick }: { onAddSubject: () => vo
               <Links />
             </div>
           </div>
-          <div>
+          <div className="grid gap-2">
+            <a
+              href="https://digitalheroesco.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full focus-ring min-h-11 flex items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold transition duration-200 active:scale-[0.99] border border-slate-200/50 dark:border-zinc-800 dark:bg-transparent text-slate-600 dark:text-zinc-300 hover:bg-slate-200/40 dark:hover:bg-zinc-900"
+            >
+              Built for Digital Heroes
+            </a>
             <Button className="w-full" icon={<Plus size={17} />} onClick={() => { onAddSubject(); setOpen(false); }}>
               Add Subject
             </Button>
