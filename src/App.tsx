@@ -1,12 +1,14 @@
 import { BarChart3, BookOpen, GraduationCap, Plus, Search, Target, TrendingUp } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { StatCard } from './components/StatCard';
 import { SubjectCard } from './components/SubjectCard';
 import { SubjectForm } from './components/SubjectForm';
 import { Button } from './components/ui/Button';
 import { Modal } from './components/ui/Modal';
-import { ThemeProvider } from './context/ThemeContext';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
+import lightLogo from './assets/LightThemeLogo.png';
+import darkLogo from './assets/DarkThemeLogo.png';
 import { categoryOptions, initialSubjects } from './data/subjects';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import type { Category, Subject, SubjectDraft } from './types';
@@ -15,11 +17,42 @@ import { attendancePercent, classesToTarget, skippableClasses, uid } from './uti
 type Filter = 'All' | Category;
 
 function AttendanceApp() {
+  const { theme } = useTheme();
   const [subjects, setSubjects] = useLocalStorage<Subject[]>('attendly-subjects', initialSubjects);
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<Filter>('All');
   const [editing, setEditing] = useState<Subject | null>(null);
   const [formOpen, setFormOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
+  const [loadingStage, setLoadingStage] = useState('Connecting workspace...');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFadeOut(true);
+      const removeTimer = setTimeout(() => {
+        setLoading(false);
+      }, 500);
+      return () => clearTimeout(removeTimer);
+    }, 1600);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!loading) return;
+    const stages = [
+      { time: 0, text: 'Connecting workspace...' },
+      { time: 500, text: 'Structuring subject cards...' },
+      { time: 1000, text: 'Resolving theme configurations...' },
+      { time: 1400, text: 'Workspace is ready' },
+    ];
+    const timers = stages.map((stage) =>
+      setTimeout(() => {
+        setLoadingStage(stage.text);
+      }, stage.time)
+    );
+    return () => timers.forEach(clearTimeout);
+  }, [loading]);
 
   const totals = useMemo(() => {
     const attended = subjects.reduce((sum, subject) => sum + subject.attended, 0);
@@ -69,6 +102,58 @@ function AttendanceApp() {
   };
 
   const isOverallHealthy = totals.average >= 75;
+
+  if (loading) {
+    return (
+      <div className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-clay-bg dark:bg-carbon-bg transition-all duration-500 ease-out ${fadeOut ? 'opacity-0 scale-98 pointer-events-none' : 'opacity-100 scale-100'}`}>
+        {/* Light Mode Wavy Background Shapes & Blobs */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden block dark:hidden select-none">
+          <svg viewBox="0 0 1440 600" fill="none" className="absolute top-0 left-0 w-full h-[600px] opacity-65">
+            <path d="M0,120 C400,240 700,0 1100,160 C1250,220 1350,280 1440,240 L1440,0 L0,0 Z" fill="#ebdfc9" />
+          </svg>
+          <div className="absolute top-[20%] left-[15%] w-[350px] h-[350px] rounded-full bg-[#ebdcb8]/40 blur-[100px]" />
+          <div className="absolute bottom-[20%] right-[15%] w-[300px] h-[300px] rounded-full bg-clay-blue/25 blur-[90px]" />
+        </div>
+
+        {/* Dark Mode Grid & Glowing Mesh */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden hidden dark:block grid-overlay select-none" />
+        <div className="absolute top-[20%] left-[15%] h-[350px] w-[350px] bg-zinc-800/10 rounded-full blur-[100px] pointer-events-none hidden dark:block" />
+        <div className="absolute bottom-[20%] right-[15%] h-[350px] w-[350px] bg-indigo-950/10 rounded-full blur-[120px] pointer-events-none hidden dark:block" />
+
+        <div className="relative z-10 text-center flex flex-col items-center max-w-sm px-6">
+          {/* Animated Logo Formation Wrapper */}
+          <div className="relative mb-8 flex h-24 w-24 items-center justify-center rounded-[2.25rem] bg-surface-strong dark:bg-zinc-900 border border-white/50 dark:border-zinc-800/60 shadow-lg dark:shadow-2xl overflow-hidden animate-logo-formation">
+            <img
+              src={theme === 'dark' ? darkLogo : lightLogo}
+              alt="Attendly Logo"
+              className="h-12 w-12 object-contain"
+            />
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
+          </div>
+          
+          <h1 className="font-display text-4xl font-black text-slate-800 dark:text-zinc-100 tracking-tight">
+            Attendly
+          </h1>
+          
+          {/* Dynamically switching status messages */}
+          <p className="mt-2.5 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-zinc-500 min-h-[16px]">
+            {loadingStage}
+          </p>
+
+          <div className="mt-8 w-44 clay-inset h-1.5 overflow-hidden rounded-full dark:bg-zinc-900/60 dark:border dark:border-zinc-800/80 dark:shadow-none">
+            <div className="h-full bg-emerald-500 rounded-full animate-loading-bar" />
+          </div>
+
+          {/* Additional detail element: Version & Tech Tag */}
+          <div className="mt-16 text-[9px] font-bold text-slate-400 dark:text-zinc-650 uppercase tracking-widest flex items-center gap-1.5">
+            <span>Secure Local Cache</span>
+            <span className="h-1 w-1 rounded-full bg-slate-300 dark:bg-zinc-800" />
+            <span>v1.0.0</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-clay-bg text-slate-800 transition-colors duration-300 dark:bg-carbon-bg dark:text-zinc-100 pb-16">
@@ -254,6 +339,20 @@ function AttendanceApp() {
           </div>
         </section>
       </main>
+
+      <footer className="relative z-10 mt-auto py-8 text-center text-xs font-semibold text-slate-400 dark:text-zinc-500">
+        <p>
+          Developed by{' '}
+          <a
+            href="https://www.linkedin.com/in/shiva-gupta-iit-patna"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-slate-600 hover:text-slate-800 dark:text-zinc-300 dark:hover:text-white transition-colors duration-200 underline underline-offset-4 decoration-slate-300 dark:decoration-zinc-800"
+          >
+            Shiva Gupta
+          </a>
+        </p>
+      </footer>
 
       {formOpen && (
         <Modal title={editing ? 'Edit subject' : 'Add subject'} onClose={() => setFormOpen(false)}>

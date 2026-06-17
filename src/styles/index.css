@@ -237,4 +237,35 @@ button {
   }
 }
 
+@keyframes loadingBar {
+  0% { width: 0%; }
+  50% { width: 70%; }
+  100% { width: 100%; }
+}
+
+.animate-loading-bar {
+  animation: loadingBar 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes logoFormation {
+  0% {
+    opacity: 0;
+    transform: scale(0.55) rotate(-12deg);
+    filter: blur(8px) brightness(1.4);
+  }
+  55% {
+    opacity: 0.85;
+    filter: blur(1.5px) brightness(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    filter: blur(0) brightness(1);
+  }
+}
+
+.animate-logo-formation {
+  animation: logoFormation 1.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
 

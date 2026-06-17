@@ -2,6 +2,8 @@ import { BarChart3, BookOpen, LayoutDashboard, Menu, Moon, Plus, Search, Sun, X 
 import { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { Button } from './ui/Button';
+import lightLogo from '../assets/LightThemeLogo.png';
+import darkLogo from '../assets/DarkThemeLogo.png';
 
 const navItems = [
   { label: 'Overview', icon: LayoutDashboard },
@@ -38,8 +40,12 @@ export function Navbar({ onAddSubject, onSearchClick }: { onAddSubject: () => vo
       <header className="sticky top-4 z-40 mx-auto w-[calc(100%-2rem)] max-w-7xl">
         <nav className="clay-card flex items-center justify-between gap-3 px-3.5 py-2.5 shadow-md border-none">
           <a className="focus-ring flex items-center gap-3 rounded-full pl-1 pr-3" href="#">
-            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-clay-blue/30 text-clay-blue-text border border-clay-blue/30 dark:bg-white dark:text-black dark:border-none shadow-inner">
-              <BookOpen size={20} />
+            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-clay-blue/30 border border-clay-blue/30 dark:bg-white/10 dark:border-zinc-800/85 shadow-inner overflow-hidden">
+              <img
+                src={theme === 'dark' ? darkLogo : lightLogo}
+                alt="Attendly Logo"
+                className="h-8 w-8 object-contain"
+              />
             </span>
             <span>
               <span className="block font-display text-2xl font-black tracking-tight text-slate-800 dark:text-zinc-100 leading-none">Attendly</span>
