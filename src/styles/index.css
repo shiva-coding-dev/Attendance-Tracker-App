@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Felipa&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --app-bg: #f3ebd9;
+  --app-text: #2c2a29;
+  --surface: #fbf9f4;
+  --surface-strong: #fdfcf9;
+  --line: rgba(44, 42, 41, 0.07);
+  --field: #f5eedc;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --app-bg: #070709;
+  --app-text: #f3f3f6;
+  --surface: #111114;
+  --surface-strong: #16161b;
+  --line: #1e1e24;
+  --field: #0b0b0d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  transition: background-color 320ms ease, color 320ms ease;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: 'Felipa', Georgia, serif;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@layer components {
+  /* Tactile claymorphic glass & card styles */
+  .clay-card {
+    background: var(--surface);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 2.25rem;
+    box-shadow: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .clay-card:hover {
+    box-shadow: 
+      10px 10px 24px rgba(165, 155, 135, 0.22), 
+      -10px -10px 24px rgba(255, 255, 255, 0.85),
+      inset 2px 2px 4px rgba(255, 255, 255, 0.5),
+      inset -2px -2px 4px rgba(165, 155, 135, 0.05);
+  }
+
+  [data-theme='dark'] .clay-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 2.25rem;
+    box-shadow: none;
+  }
+
+  [data-theme='dark'] .clay-card:hover {
+    box-shadow: 
+      0 12px 36px rgba(0, 0, 0, 0.65),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  /* Debossed inset structures */
+  .clay-inset {
+    background: var(--field);
+    border-radius: 1.5rem;
+    box-shadow: 
+      inset 3px 3px 6px rgba(165, 155, 135, 0.18), 
+      inset -3px -3px 6px rgba(255, 255, 255, 0.8);
+  }
+
+  [data-theme='dark'] .clay-inset {
+    background: var(--field);
+    border-radius: 1.5rem;
+    box-shadow: 
+      inset 2px 2px 4px rgba(0, 0, 0, 0.75),
+      inset -1px -1px 2px rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--line);
+  }
+
+  /* Pill-like 3D clay buttons */
+  .clay-btn {
+    background: var(--surface-strong);
+    color: var(--app-text);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 9999px;
+    box-shadow: none;
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .clay-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 
+      5px 5px 12px rgba(165, 155, 135, 0.22), 
+      -5px -5px 12px rgba(255, 255, 255, 0.95),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.5);
+  }
+
+  .clay-btn:active {
+    box-shadow: 
+      inset 2.5px 2.5px 6px rgba(165, 155, 135, 0.22), 
+      inset -2.5px -2.5px 6px rgba(255, 255, 255, 0.75);
+    transform: translateY(0) scale(0.98);
+  }
+
+  [data-theme='dark'] .clay-btn {
+    background: #ffffff;
+    color: #000000;
+    border: none;
+    box-shadow: none;
+  }
+
+  [data-theme='dark'] .clay-btn:hover {
+    background: #f3f3f6;
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.22);
+  }
+
+  [data-theme='dark'] .clay-btn:active {
+    transform: scale(0.97);
+  }
+
+  /* Specific clay palette overrides */
+  .clay-btn-blue {
+    background: #abc5d3 !important;
+    color: #2b3e4a !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: none !important;
+  }
+  .clay-btn-blue:hover {
+    background: #b5cdd9 !important;
+    box-shadow: 
+      4px 4px 10px rgba(140, 160, 175, 0.35), 
+      -4px -4px 10px rgba(255, 255, 255, 0.9),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.5) !important;
+  }
+  .clay-btn-blue:active {
+    box-shadow: 
+      inset 2px 2px 5px rgba(140, 160, 175, 0.4), 
+      inset -2px -2px 5px rgba(255, 255, 255, 0.7) !important;
+  }
+
+  .clay-btn-green {
+    background: #abbfa5 !important;
+    color: #3e5443 !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: none !important;
+  }
+  .clay-btn-green:hover {
+    background: #b5c7b0 !important;
+    box-shadow: 
+      4px 4px 10px rgba(145, 160, 140, 0.35), 
+      -4px -4px 10px rgba(255, 255, 255, 0.9),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.5) !important;
+  }
+  .clay-btn-green:active {
+    box-shadow: 
+      inset 2px 2px 5px rgba(145, 160, 140, 0.4), 
+      inset -2px -2px 5px rgba(255, 255, 255, 0.7) !important;
+  }
+
+  .clay-btn-pink {
+    background: #ebc0b5 !important;
+    color: #5e3831 !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: none !important;
+  }
+  .clay-btn-pink:hover {
+    background: #f1cbc1 !important;
+    box-shadow: 
+      4px 4px 10px rgba(200, 165, 155, 0.35), 
+      -4px -4px 10px rgba(255, 255, 255, 0.9),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.5) !important;
+  }
+  .clay-btn-pink:active {
+    box-shadow: 
+      inset 2px 2px 5px rgba(200, 165, 155, 0.4), 
+      inset -2px -2px 5px rgba(255, 255, 255, 0.7) !important;
+  }
+
+  /* Dark mode specific tactical cards & helpers */
+  .dark-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 1.5rem;
+    box-shadow: none;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  
+  .dark-card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
+    transform: translateY(-2px);
+  }
+
+  .grid-overlay {
+    background-size: 50px 50px;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  }
+
+  .focus-ring {
+    @apply outline-none ring-offset-2 ring-offset-transparent focus-visible:ring-2 focus-visible:ring-indigo-500 dark:focus-visible:ring-indigo-400;
+  }
+
+  .glow-blob {
+    @apply pointer-events-none absolute rounded-full blur-[100px] opacity-10 dark:opacity-20 z-0;
+  }
+}
+
+
